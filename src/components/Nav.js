@@ -89,8 +89,8 @@ function Nav(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false); // 사이드 바 모바일 확인 State
-  const [anchorEl, setAnchorEl] = useState(null); // 계정 버튼 내 메뉴 모바일 확인 State
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null); // 알림 계정 모바일 확인 State
+  const [anchorEl, setAnchorEl] = useState(false); // 계정 버튼 내 메뉴 모바일 확인 State
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(false); // 알림 계정 모바일 확인 State
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -103,7 +103,7 @@ function Nav(props) {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
+  const handleMenuClose = () => { // 메뉴 말고 외부 클릭했을 때 사라지기
     setAnchorEl(null);
     handleMobileMenuClose();
   };
@@ -112,8 +112,11 @@ function Nav(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  const handleDrawerToggle = () => { // 모바일 사이드바 메뉴 누를 때 끄기
+    if(mobileOpen === true)
+      setMobileOpen(false);
+    else
+      setMobileOpen(true);
   };
 
   const drawer = (
@@ -122,7 +125,7 @@ function Nav(props) {
       <Divider />
       <List>
         {['Home', 'Hospital', 'Log', 'Graph'].map((text, index) => (
-          <ListItem button key={text}>
+          <ListItem button key={text} onClick={handleDrawerToggle}>
             <ListItemIcon> {index % 2 === 0 ? index === 0 ? <Home /> : <FormatListBulleted /> : index === 1 ? <LocalHospital /> : <InsertChart /> } </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
