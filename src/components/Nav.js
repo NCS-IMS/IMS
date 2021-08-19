@@ -1,4 +1,7 @@
-import React, { useState, Grid, Paper } from 'react';
+import React, { useState } from 'react';
+
+// material-ui core
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,14 +16,24 @@ import Badge from '@material-ui/core/Badge';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+//import Grid from '@material-ui/core/Grid'
+
+// material-ui icons
+
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { Home, LocalHospital, InsertChart, FormatListBulleted } from '@material-ui/icons';
+import HomeIcon from '@material-ui/icons/Home';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+import InsertChartIcon from '@material-ui/icons/InsertChart';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 
+// components
+
+import Map from './Map';
 
 const drawerWidth = 200;
 
@@ -53,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
+
   drawerPaper: {
     width: drawerWidth,
   },
@@ -92,6 +106,8 @@ function Nav(props) {
   const [anchorEl, setAnchorEl] = useState(false); // 계정 버튼 내 메뉴 모바일 확인 State
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(false); // 알림 계정 모바일 확인 State
 
+  const [mode, setMode] = useState('Home');
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -112,24 +128,38 @@ function Nav(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleDrawerToggle = () => { // 모바일 사이드바 메뉴 누를 때 끄기
-    if(mobileOpen === true)
-      setMobileOpen(false);
-    else
-      setMobileOpen(true);
+  const handleDrawerToggle = (boolean) => { // 모바일 사이드바 메뉴 누를 때 끄기
+    setMobileOpen(boolean);
+  };
+
+  const modeChanger = (mode) => {
+    setMode(mode)
+    handleDrawerToggle(false)
   };
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
+      <div className={classes.toolbar}>
+        
+      </div>
       <Divider />
       <List>
-        {['Home', 'Hospital', 'Log', 'Graph'].map((text, index) => (
-          <ListItem button key={text} onClick={handleDrawerToggle}>
-            <ListItemIcon> {index % 2 === 0 ? index === 0 ? <Home /> : <FormatListBulleted /> : index === 1 ? <LocalHospital /> : <InsertChart /> } </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button key='Home' onClick={()=>modeChanger('Home')}>
+          <ListItemIcon><HomeIcon /></ListItemIcon>
+          <ListItemText primary='Home' />
+        </ListItem>
+        <ListItem button key='Hospital' onClick={()=>modeChanger('Hospital')}>
+          <ListItemIcon><LocalHospitalIcon /></ListItemIcon>
+          <ListItemText primary='Hospital' />
+        </ListItem>
+        <ListItem button key='Log' onClick={()=>modeChanger('Log')}>
+          <ListItemIcon><FormatListBulletedIcon /></ListItemIcon>
+          <ListItemText primary='Log' />
+        </ListItem>
+        <ListItem button key='Graph' onClick={()=>modeChanger('Graph')}>
+          <ListItemIcon><InsertChartIcon /></ListItemIcon>
+          <ListItemText primary='Graph' />
+        </ListItem>
       </List>
     </div>
   );
@@ -182,7 +212,7 @@ function Nav(props) {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <AccountCircleIcon />
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -199,7 +229,7 @@ function Nav(props) {
               color="inherit"
               aria-label="open drawer"
               edge="start"
-              onClick={handleDrawerToggle}
+              onClick={()=>handleDrawerToggle(true)}
               className={classes.menuButton}
             >
               <MenuIcon />
@@ -223,7 +253,7 @@ function Nav(props) {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <AccountCircleIcon />
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -240,7 +270,7 @@ function Nav(props) {
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
-        <Hidden smUp implementation="css">
+        <Hidden mdUp implementation="css">
           {/* 모바일일 때 사이드바 */}
           <Drawer 
             container={container}
@@ -273,7 +303,19 @@ function Nav(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        내용내용
+        {(mode === 'Home' || mode ==='Hospital') &&
+          <Map mode={mode}/>
+        }
+        {mode === 'Log' &&
+          <div>
+            log
+          </div>
+        }
+        {mode === 'Graph' &&
+          <div>
+            graph
+          </div>
+        }
       </main>
       {renderMobileMenu}
       {renderMenu}
