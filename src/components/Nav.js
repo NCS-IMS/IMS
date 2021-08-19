@@ -33,7 +33,7 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 
 // components
 
-import Map from './Map';
+import KakaoMap from './KakaoMap';
 
 const drawerWidth = 200;
 
@@ -304,7 +304,7 @@ function Nav(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {(mode === 'Home' || mode ==='Hospital') &&
-          <Map mode={mode}/>
+          <KakaoMap mode={mode}/>
         }
         {mode === 'Log' &&
           <div>

@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 
 import { Grid } from "@material-ui/core";
 
+import ReportorInfo from "./ReportorInfo";
 import Test from './Test';
 
 const { kakao } = window;
 
-function Map( { mode } ) {
+function KakaoMap( { mode } ) {
     useEffect(()=>{
         const container = document.getElementById('map');
         const options = {
@@ -28,7 +29,7 @@ function Map( { mode } ) {
             </Grid>
             <Grid item xs={12} lg={4}>
                 {mode === "Home" &&
-                    <Test/>
+                    <ReportorInfo/>
                 }
                 {mode === "Hospital" &&
                     <Test/>
@@ -38,4 +39,4 @@ function Map( { mode } ) {
     )
 }
 
-export default Map;
+export default KakaoMap;
