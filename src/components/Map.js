@@ -20,6 +20,7 @@ function Map( { mode } ) {
         <Grid container spacing={3}>
             <Grid item xs={12} lg={8}>
                 <div
+                    className="MuiPaper-elevation1"
                     id="map"
                     style={{width:"100%", height:"87.9vh", borderRadius:"15px"}} // F11 버전 89.6vh 기본 버전 87.9vh 모바일 버전
                 >
@@ -27,6 +28,9 @@ function Map( { mode } ) {
             </Grid>
             <Grid item xs={12} lg={4}>
                 {mode === "Home" &&
+                    <Test/>
+                }
+                {mode === "Hospital" &&
                     <Test/>
                 }
             </Grid>
