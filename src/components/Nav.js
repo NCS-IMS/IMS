@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import Logo from './../styles/images/logo.png'
 
 // material-ui core
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,7 +18,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-//import Grid from '@material-ui/core/Grid'
 
 // material-ui icons
 
@@ -140,23 +139,26 @@ function Nav(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar}>
-        
+        <img
+          src={Logo}
+          width='100%'
+          alt=''
+        />
       </div>
-      <Divider />
       <List>
-        <ListItem button key='Home' onClick={()=>modeChanger('Home')}>
+        <ListItem button key='Home' onClick={()=>modeChanger('Home')} selected={mode === "Home" ? 1 : 0}>
           <ListItemIcon><HomeIcon /></ListItemIcon>
           <ListItemText primary='Home' />
         </ListItem>
-        <ListItem button key='Hospital' onClick={()=>modeChanger('Hospital')}>
+        <ListItem button key='Hospital' onClick={()=>modeChanger('Hospital')} selected={mode === "Hospital" ? 1 : 0}>
           <ListItemIcon><LocalHospitalIcon /></ListItemIcon>
           <ListItemText primary='Hospital' />
         </ListItem>
-        <ListItem button key='Log' onClick={()=>modeChanger('Log')}>
+        <ListItem button key='Log' onClick={()=>modeChanger('Log')} selected={mode === "Log" ? 1 : 0}>
           <ListItemIcon><FormatListBulletedIcon /></ListItemIcon>
           <ListItemText primary='Log' />
         </ListItem>
-        <ListItem button key='Graph' onClick={()=>modeChanger('Graph')}>
+        <ListItem button key='Graph' onClick={()=>modeChanger('Graph')} selected={mode === "Graph" ? 1 : 0}>
           <ListItemIcon><InsertChartIcon /></ListItemIcon>
           <ListItemText primary='Graph' />
         </ListItem>

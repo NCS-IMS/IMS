@@ -23,7 +23,7 @@ function KakaoMap( { mode } ) {
                 <div
                     className="MuiPaper-elevation1"
                     id="map"
-                    style={{width:"100%", height:"87.9vh", borderRadius:"15px"}} // F11 버전 89.6vh 기본 버전 87.9vh 모바일 버전
+                    style={{width:"100%", height:"87.7vh", borderRadius:"5px"}} // F11 버전 89.6vh 기본 버전 87.9vh 모바일 버전 81.7vh
                 >
                 </div>
             </Grid>
