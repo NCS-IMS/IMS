@@ -1,6 +1,6 @@
 import './App.scss';
 
-import Nav from "./../src/components/Nav"
+import Nav from "./../src/components/Nav.jsx"
 
 function App() {
   return (

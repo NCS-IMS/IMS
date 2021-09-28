@@ -4,7 +4,7 @@ import Img from "./../styles/images/images.png"
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import { Paper, Typography, Tab, Tabs, Box, Grid, Popover, } from "@material-ui/core";
+import { Paper, Typography, Tab, Tabs, Box, Grid } from "@material-ui/core";
 
 import SwipeableViews from 'react-swipeable-views'
 import PropTypes from 'prop-types';
@@ -48,18 +48,7 @@ const useStyles = makeStyles((theme) => ({
     scrollBox: {
         overflowY: 'scroll',
         display: 'block',
-        [theme.breakpoints.up('lg')]: {
-            height: '20vh'
-        },
-        [theme.breakpoints.up('md')]: {
-            height: '14vh'
-        },
-        [theme.breakpoints.up('sm')]: {
-            height: '20vh'
-        },
-        [theme.breakpoints.up('xs')]: {
-            height: '20vh'
-        }
+        height: '18.5vh',
     },
     display: {
         width: '100%',
@@ -70,10 +59,13 @@ const useStyles = makeStyles((theme) => ({
     infoTable: {
         textAlign: 'center',
         width: '100%',
-        borderSpacing: '12px',
+        borderSpacing: '10px',
     },
-    popover: {
-        pointerEvents: 'none',
+    height50: {
+        height: '50px',
+        verticalAlign: 'middle',
+        paddingLeft: theme.spacing(5),
+        paddingRight: theme.spacing(5),
     }
 }
 ));
@@ -100,22 +92,10 @@ function ReportorInfo() {
         setValue(index)
     }
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handlePopoverOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handlePopoverClose = () => {
-        setAnchorEl(null);
-    };
-
-    const open = Boolean(anchorEl);
-
     return (
         <Paper>
             <div className={classes.display}>
-                <Typography variant="h5" className={classes.title}>신고자</Typography>
+                <Typography variant="h5" className={classes.title}><Box fontWeight="fontWeightBold">신고자</Box></Typography>
                 <Grid container spacing={2} className={classes.title}>
                     <Grid item xs={12}>
                         <div className={classes.textCenter}>
@@ -133,58 +113,28 @@ function ReportorInfo() {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><Typography variant="subtitle1">이름</Typography></td>
+                                    <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">이름</Box></Typography></td>
                                     <td><Typography variant="body1">김득회</Typography></td>
-                                </tr><tr>
-                                    <td><Typography variant="subtitle1">생년월일</Typography></td>
+                                </tr>
+                                <tr>
+                                    <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">생년월일</Box></Typography></td>
                                     <td><Typography variant="body1">1997년 12월 13일</Typography></td>
                                 </tr>
                                 <tr>
-                                    <td><Typography variant="subtitle1">연락처</Typography></td>
+                                    <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">연락처</Box></Typography></td>
                                     <td><Typography variant="body1">010 - 4304 - 2134</Typography></td>
                                 </tr>
                                 <tr>
-                                    <td><Typography variant="subtitle1">주소</Typography></td>
+                                    <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">주소</Box></Typography></td>
                                 </tr>
                                 <tr>
-                                    <td colSpan='2'>
-                                        <Typography variant="body1">충청남도 아산시 배방읍 호서로 79번길 20</Typography>
-                                        {/*<Typography variant="body1"
-                                            aria-owns={open ? 'mouse-over-popover' : undefined}
-                                            aria-haspopup="true"
-                                            onMouseEnter={handlePopoverOpen}
-                                            onMouseLeave={handlePopoverClose}
-                                        >충청남도 아산시 배방읍 호서로 79번길 20</Typography>
-                                        <Popover
-                                            id="mouse-over-popover"
-                                            className={classes.popover}
-                                            classes={{
-                                            paper: classes.paper,
-                                            }}
-                                            open={open}
-                                            anchorEl={anchorEl}
-                                            anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'left',
-                                            }}
-                                            transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'left',
-                                            }}
-                                            onClose={handlePopoverClose}
-                                            disableRestoreFocus
-                                        >
-                                            <Typography variant="body1">충청남도 아산시 배방읍 호서로 79번길 20</Typography>
-                                        </Popover>*/}
+                                    <td colSpan='2' className={classes.height50}>
+                                        <Typography variant="body1">충청남도 아산시 배방읍 호서로 79번길 20 호서대학교 제2공학관 421호</Typography>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>혈액형</td>
+                                <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">혈액형</Box></Typography></td>
                                     <td>B</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -206,7 +156,7 @@ function ReportorInfo() {
                             </TabPanel>
                             <TabPanel value={value} index={1} dir={theme.direction}>
                                 <div className={classes.scrollBox}>
-                                    asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>
+                                    qwer<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>
                                 </div>
                             </TabPanel>
                         </SwipeableViews>

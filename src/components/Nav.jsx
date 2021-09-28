@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Logo from './../styles/images/logo.png'
 
+import axios from "axios"
+
 // material-ui core
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -33,6 +35,7 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 // components
 
 import KakaoMap from './KakaoMap';
+import Log from './Log';
 
 const drawerWidth = 200;
 
@@ -98,6 +101,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Nav(props) {
+
+  const [data, setData] = useState("A")
+
+  const callLog = () => {
+    axios.get(`http://conative.myds.me:43043/user/log/all?flag=1`).then(response => {
+        setData(response.data.result);
+    })
+  }
+
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -134,6 +146,9 @@ function Nav(props) {
   const modeChanger = (mode) => {
     setMode(mode)
     handleDrawerToggle(false)
+    if(mode === "Log"){
+      callLog()
+    }
   };
 
   const drawer = (
@@ -156,7 +171,7 @@ function Nav(props) {
         </ListItem>
         <ListItem button key='Log' onClick={()=>modeChanger('Log')} selected={mode === "Log" ? 1 : 0}>
           <ListItemIcon><FormatListBulletedIcon /></ListItemIcon>
-          <ListItemText primary='Log' />
+          <ListItemText primary='Log'/>
         </ListItem>
         <ListItem button key='Graph' onClick={()=>modeChanger('Graph')} selected={mode === "Graph" ? 1 : 0}>
           <ListItemIcon><InsertChartIcon /></ListItemIcon>
@@ -279,7 +294,7 @@ function Nav(props) {
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
-            onClose={handleDrawerToggle}
+            onClose={()=>handleDrawerToggle(false)}
             classes={{
               paper: classes.drawerPaper,
             }}
@@ -309,9 +324,7 @@ function Nav(props) {
           <KakaoMap mode={mode}/>
         }
         {mode === 'Log' &&
-          <div>
-            log
-          </div>
+          <Log mode={mode} data={data} callLog={callLog}/>
         }
         {mode === 'Graph' &&
           <div>
