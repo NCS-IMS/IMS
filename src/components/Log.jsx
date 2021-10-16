@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
+import axios from 'axios'
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -17,8 +19,17 @@ const useStyles = makeStyles((theme) => ({
 }
 ));
 
-function Log( { mode, data, callLog } ) {
-    
+function Log( { mode } ) {
+   
+    const [data, setData] = useState()
+
+    useEffect(() => {
+        axios.get(`http://conative.myds.me:43043/user/log/all?flag=1`)
+         .then(response => {
+            console.log(response)
+         })
+     }, [])
+
     const classes = useStyles();
 
     return (
@@ -26,7 +37,6 @@ function Log( { mode, data, callLog } ) {
             <Grid item xs={12} lg={8}>
                 <Paper>
                     <div className={classes.display}>
-                        <LogTable data={data} callLog={callLog}/>
                     </div>
                 </Paper>
             </Grid>

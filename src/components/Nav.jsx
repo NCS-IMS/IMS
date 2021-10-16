@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Logo from './../styles/images/logo.png'
-
-import axios from "axios"
 
 // material-ui core
 
@@ -24,17 +22,16 @@ import Typography from '@material-ui/core/Typography';
 // material-ui icons
 
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import HomeIcon from '@material-ui/icons/Home';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
-import InsertChartIcon from '@material-ui/icons/InsertChart';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 
 // components
 
 import KakaoMap from './KakaoMap';
+import KakaoMapHospital from './KakaoMapHospital'
 import Log from './Log';
 
 const drawerWidth = 200;
@@ -102,14 +99,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Nav(props) {
 
-  const [data, setData] = useState("A")
-
-  const callLog = () => {
-    axios.get(`http://conative.myds.me:43043/user/log/all?flag=1`).then(response => {
-        setData(response.data.result);
-    })
-  }
-
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -121,10 +110,6 @@ function Nav(props) {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -146,9 +131,6 @@ function Nav(props) {
   const modeChanger = (mode) => {
     setMode(mode)
     handleDrawerToggle(false)
-    if(mode === "Log"){
-      callLog()
-    }
   };
 
   const drawer = (
@@ -169,13 +151,9 @@ function Nav(props) {
           <ListItemIcon><LocalHospitalIcon /></ListItemIcon>
           <ListItemText primary='Hospital' />
         </ListItem>
-        <ListItem button key='Log' onClick={()=>modeChanger('Log')} selected={mode === "Log" ? 1 : 0}>
+        <ListItem button key='Log' onClick={()=>{modeChanger('Log')}} selected={mode === "Log" ? 1 : 0}>
           <ListItemIcon><FormatListBulletedIcon /></ListItemIcon>
           <ListItemText primary='Log'/>
-        </ListItem>
-        <ListItem button key='Graph' onClick={()=>modeChanger('Graph')} selected={mode === "Graph" ? 1 : 0}>
-          <ListItemIcon><InsertChartIcon /></ListItemIcon>
-          <ListItemText primary='Graph' />
         </ListItem>
       </List>
     </div>
@@ -203,38 +181,28 @@ function Nav(props) {
 
   // onClick 이벤트 - 모바일 메뉴 버튼
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircleIcon />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
+  const [state, setState] = useState({
+    center: {
+      lat: 36,
+      lng: 127,
+    }
+  })
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setState((prev) => ({
+            ...prev,
+            center: {
+              lat: position.coords.latitude, // 위도
+              lng: position.coords.longitude, // 경도
+            }
+          }))
+        }
+      )
+    }
+  })
 
   return (
     <div className={classes.root}>
@@ -255,35 +223,6 @@ function Nav(props) {
           <Typography variant="h6" noWrap>
             NCS-IMS
           </Typography>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircleIcon />
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
@@ -320,19 +259,16 @@ function Nav(props) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {(mode === 'Home' || mode ==='Hospital') &&
-          <KakaoMap mode={mode}/>
+        {mode === 'Home' &&
+          <KakaoMap mode={mode} state={state} setState={setState}/>
+        }
+        {mode === 'Hospital' &&
+          <KakaoMapHospital mode={mode} state={state} setState={setState}/>
         }
         {mode === 'Log' &&
-          <Log mode={mode} data={data} callLog={callLog}/>
-        }
-        {mode === 'Graph' &&
-          <div>
-            graph
-          </div>
+          <Log mode={mode} state={state} setState={setState}/>
         }
       </main>
-      {renderMobileMenu}
       {renderMenu}
     </div>
   );

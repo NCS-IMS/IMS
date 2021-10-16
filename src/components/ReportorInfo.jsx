@@ -1,6 +1,6 @@
 import React from "react";
 
-import Img from "./../styles/images/images.png"
+import Img from "./../styles/images/images.jpg"
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
@@ -114,15 +114,15 @@ function ReportorInfo() {
                             <tbody>
                                 <tr>
                                     <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">이름</Box></Typography></td>
-                                    <td><Typography variant="body1">김득회</Typography></td>
+                                    <td><Typography variant="body1">신고자</Typography></td>
                                 </tr>
                                 <tr>
                                     <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">생년월일</Box></Typography></td>
-                                    <td><Typography variant="body1">1997년 12월 13일</Typography></td>
+                                    <td><Typography variant="body1">0000년 00월 00일</Typography></td>
                                 </tr>
                                 <tr>
                                     <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">연락처</Box></Typography></td>
-                                    <td><Typography variant="body1">010 - 4304 - 2134</Typography></td>
+                                    <td><Typography variant="body1">000-0000-0000</Typography></td>
                                 </tr>
                                 <tr>
                                     <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">주소</Box></Typography></td>
@@ -151,12 +151,12 @@ function ReportorInfo() {
                         >
                             <TabPanel value={value} index={0} dir={theme.direction}>
                                 <div className={classes.scrollBox}>
-                                    asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>
+                                    없음
                                 </div>
                             </TabPanel>
                             <TabPanel value={value} index={1} dir={theme.direction}>
                                 <div className={classes.scrollBox}>
-                                    qwer<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>asdf<br/>
+                                    없음
                                 </div>
                             </TabPanel>
                         </SwipeableViews>

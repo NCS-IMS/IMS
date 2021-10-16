@@ -1,13 +1,15 @@
-import React from "react";
-
-import Img from "./../styles/images/hospital.png"
+import React, { useState } from "react";
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
-import { Paper, Typography, Tab, Tabs, Box, Grid, } from "@material-ui/core";
+import { Roadview, CustomOverlayRoadview } from "react-kakao-maps-sdk"
+
+import { Paper, Typography, Tab, Tabs, Box, Grid, Chip, ThemeProvider } from "@material-ui/core";
 
 import SwipeableViews from 'react-swipeable-views'
 import PropTypes from 'prop-types';
+
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -92,12 +94,18 @@ function a11yProps(index) {
     };
 }
 
-function HospitalInfo() {
+function HospitalInfo( {markY, markX, title, address, tell, tellED, exist} ) {
+
+    const Content = () => (
+        <ThemeProvider theme={theme}>
+            <Chip icon={<LocalHospitalIcon/>} label={title} />
+        </ThemeProvider>
+      )
 
     const classes = useStyles();
     const theme = useTheme();
 
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
 
     const modeTab = (e, newValue) => {
         setValue(newValue)
@@ -110,17 +118,36 @@ function HospitalInfo() {
     return (
         <Paper>
             <div className={classes.display}>
-                <Typography variant="h5" className={classes.title} color="primary"><Box fontWeight="fontWeightBold">병원 이름 sample</Box></Typography>
+                <Typography variant="h5" className={classes.title} color="primary"><Box fontWeight="fontWeightBold">{title}</Box></Typography>
                 <Grid container spacing={1} className={classes.title}>
                     <Grid item xs={12}>
                         <table className={classes.infoTable}>
                             <thead className={classes.textCenter}>
-                                <img
-                                    src={Img}
-                                    alt=''
-                                    width='100%'
-                                    height='250px'
-                                />
+                                <Roadview // 로드뷰를 표시할 Container
+                                    position={{
+                                        // 지도의 중심좌표
+                                        lat: markY,
+                                        lng: markX,
+                                        radius: 50,
+                                    }}
+                                    style={{
+                                        // 지도의 크기
+                                        width: "100%",
+                                        height: "250px",
+                                    }}
+                                >
+                                    <CustomOverlayRoadview
+                                        position={{
+                                            lat: markY,
+                                            lng: markX,
+                                        }}
+                                        isFocus={true}
+                                        xAnchor={0.5}
+                                        yAnchor={0.5}
+                                    >
+                                        <Content />
+                                    </CustomOverlayRoadview>
+                                </Roadview>
                             </thead>
                             <tbody>
                                 <tr>
@@ -128,7 +155,7 @@ function HospitalInfo() {
                                 </tr>
                                 <tr>
                                     <td colSpan='2' className={classes.height50}>
-                                        <Typography variant="body1">주소 sample sample sample sample sample sample sample sample</Typography>
+                                        <Typography variant="body1">{address}</Typography>
                                     </td>
                                 </tr>
                             </tbody>
@@ -141,11 +168,15 @@ function HospitalInfo() {
                             <tbody>
                                 <tr>
                                     <td className={classes.content}><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">병원 대표 연락처</Box></Typography></td>
-                                    <td><Typography variant="body1">000 - 0000 - 0000</Typography></td>
+                                    <td><Typography variant="body1">{tell}</Typography></td>
                                 </tr>
                                 <tr>
                                     <td className={classes.content}><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">병원 응급실 연락처</Box></Typography></td>
-                                    <td><Typography variant="body1">000 - 0000 - 0000</Typography></td>
+                                    <td><Typography variant="body1">
+                                        {exist === 'true'&&
+                                            {tellED}
+                                        }
+                                    </Typography></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -162,70 +193,74 @@ function HospitalInfo() {
                         >
                             <TabPanel value={value} index={0} dir={theme.direction}>
                                 <div className={classes.scrollTable}>
-                                    <table className={classes.dataTable}>
-                                        <tbody>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">응급실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">수술실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">입원실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    {exist === 'true'&&
+                                        <table className={classes.dataTable}>
+                                            <tbody>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">응급실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">수술실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">입원실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    }
                                 </div>
                             </TabPanel>
                             <TabPanel value={value} index={1} dir={theme.direction}>
                                 <div className={classes.scrollTable}>
-                                    <table className={classes.dataTable}>
-                                        <tbody>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">응급실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">수술실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">입원실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                            <tr>
-                                                <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
-                                                <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    {exist === 'true'&&
+                                        <table className={classes.dataTable}>
+                                            <tbody>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">응급실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">수술실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">입원실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                                <tr>
+                                                    <td className={classes.widthHalf}><Typography variant="subtitle1"><Box fontWeight="fontWeightBold">중환자실</Box></Typography></td>
+                                                    <td className={classes.widthHalf}><Typography variant="body1">7 / 74</Typography></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    }
                                 </div>
                             </TabPanel>
                         </SwipeableViews>
