@@ -170,17 +170,18 @@ function HospitalInfo( {markY, markX, title, address, tell, tellED, exist} ) {
                                     <td className={classes.content}><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">병원 대표 연락처</Box></Typography></td>
                                     <td><Typography variant="body1">{tell}</Typography></td>
                                 </tr>
-                                <tr>
+                                {/*<tr>
                                     <td className={classes.content}><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">병원 응급실 연락처</Box></Typography></td>
                                     <td><Typography variant="body1">
                                         {exist === 'true'&&
                                             {tellED}
                                         }
                                     </Typography></td>
-                                </tr>
+                                </tr>*/}
                             </tbody>
                         </table>
                     </Grid>
+                    <Typography variant="h6" className={classes.title} color="primary"><Box fontWeight="fontWeightBold">응급실 상황</Box></Typography>
                     <Grid item xs={12} className={classes.content}>
                         <Tabs value={value} onChange={modeTab} aria-label="simple tabs example" indicatorColor="primary" textColor="primary" variant="fullWidth">
                             <Tab label="수용 가능 인원" {...a11yProps(0)} />

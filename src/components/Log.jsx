@@ -36,8 +36,7 @@ function Log( { mode } ) {
         <Grid container spacing={3}>
             <Grid item xs={12} lg={8}>
                 <Paper>
-                    <div className={classes.display}>
-                    </div>
+                    <LogTable/>
                 </Paper>
             </Grid>
             <Grid item xs={12} lg={4}>

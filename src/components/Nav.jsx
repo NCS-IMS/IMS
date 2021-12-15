@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Badge from '@material-ui/core/Badge';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -22,8 +21,6 @@ import Typography from '@material-ui/core/Typography';
 // material-ui icons
 
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import HomeIcon from '@material-ui/icons/Home';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
@@ -104,24 +101,13 @@ function Nav(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false); // 사이드 바 모바일 확인 State
   const [anchorEl, setAnchorEl] = useState(false); // 계정 버튼 내 메뉴 모바일 확인 State
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(false); // 알림 계정 모바일 확인 State
 
   const [mode, setMode] = useState('Home');
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
 
   const handleMenuClose = () => { // 메뉴 말고 외부 클릭했을 때 사라지기
     setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const handleDrawerToggle = (boolean) => { // 모바일 사이드바 메뉴 누를 때 끄기

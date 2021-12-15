@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Img from "./../styles/images/images.jpg"
 
@@ -77,12 +77,11 @@ function a11yProps(index) {
     };
   }
 
-function ReportorInfo() {
+function ReportorInfo( { reportState, time, address, medicine, anamnesis } ) {
 
     const classes = useStyles();
     const theme = useTheme();
-
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
 
     const modeTab = (e, newValue) => {
         setValue(newValue)
@@ -113,28 +112,20 @@ function ReportorInfo() {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">이름</Box></Typography></td>
-                                    <td><Typography variant="body1">신고자</Typography></td>
+                                    <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">발생 상황</Box></Typography></td>
+                                    <td><Typography variant="body1">{reportState}</Typography></td>
                                 </tr>
                                 <tr>
-                                    <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">생년월일</Box></Typography></td>
-                                    <td><Typography variant="body1">0000년 00월 00일</Typography></td>
+                                    <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">발생 시간</Box></Typography></td>
+                                    <td><Typography variant="body1">{time}</Typography></td>
                                 </tr>
                                 <tr>
-                                    <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">연락처</Box></Typography></td>
-                                    <td><Typography variant="body1">000-0000-0000</Typography></td>
-                                </tr>
-                                <tr>
-                                    <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">주소</Box></Typography></td>
+                                    <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">발생 위치</Box></Typography></td>
                                 </tr>
                                 <tr>
                                     <td colSpan='2' className={classes.height50}>
-                                        <Typography variant="body1">충청남도 아산시 배방읍 호서로 79번길 20 호서대학교 제2공학관 421호</Typography>
+                                        <Typography variant="body1">{address}</Typography>
                                     </td>
-                                </tr>
-                                <tr>
-                                <td><Typography variant="subtitle1" color="primary"><Box fontWeight="fontWeightBold">혈액형</Box></Typography></td>
-                                    <td>B</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -151,12 +142,12 @@ function ReportorInfo() {
                         >
                             <TabPanel value={value} index={0} dir={theme.direction}>
                                 <div className={classes.scrollBox}>
-                                    없음
+                                    {medicine}
                                 </div>
                             </TabPanel>
                             <TabPanel value={value} index={1} dir={theme.direction}>
                                 <div className={classes.scrollBox}>
-                                    없음
+                                    {anamnesis}
                                 </div>
                             </TabPanel>
                         </SwipeableViews>

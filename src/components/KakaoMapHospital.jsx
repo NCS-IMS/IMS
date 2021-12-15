@@ -18,8 +18,8 @@ function KakaoMapHospital({ mode, state, setState }) {
   const [markY, setMarkY] = useState()
   const [title, setTitle] = useState("Hospital Title")
   const [address, setAddress] = useState("Hospital Adress")
-  const [tell, setTell] = useState("000-000-0000")
-  const [tellED, setTellED] = useState("")
+  const [tell, setTell] = useState("Hospital Tel")
+  const [tellED, setTellED] = useState("Hospital ED Tel")
   
   const[exist, setExist] = useState(false)
 
